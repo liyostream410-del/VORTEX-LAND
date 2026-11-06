@@ -1,1 +1,128 @@
-# VORTEX-LAND
+<!doctype html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090512">
+<title>VORTEX LAND | Your World. Your Adventure.</title>
+<style>
+:root{--violet:#a855f7;--violet2:#6d28d9;--glow:#d8b4fe;--gold:#f4cf79;--ink:#080510;--panel:rgba(14,8,27,.82);--line:rgba(194,139,255,.38);--white:#fff8ff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ink);color:var(--white);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+button,a{font:inherit}button{cursor:pointer}
+#intro{position:fixed;inset:0;z-index:50;background:#020106;display:grid;place-items:center;transition:opacity 1s,visibility 1s}
+#intro video{width:100%;height:100%;object-fit:cover}
+.intro-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,1,10,.7),transparent 55%,rgba(4,1,10,.25));pointer-events:none}
+.intro-brand{position:absolute;bottom:9%;left:6%;letter-spacing:.22em;text-shadow:0 0 22px #a855f7}
+.intro-brand b{display:block;font-size:clamp(25px,5vw,55px)}
+.intro-brand small{color:#e9d5ff}
+.intro-controls{position:absolute;right:5%;bottom:7%;display:flex;gap:10px}
+#startIntro{display:none;position:absolute;left:50%;bottom:8%;transform:translateX(-50%);border:1px solid #c084fc;background:#160b29e8;color:white;padding:13px 20px;border-radius:5px;letter-spacing:.12em;font-size:12px;box-shadow:0 0 25px #9333ea88}
+#intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+#site{min-height:100vh;opacity:0;transition:opacity 1s}#site.ready{opacity:1}
+.bg{position:fixed;inset:0;z-index:-3;background:#090512 url("vortex_land_fantasy_background.gif") center/cover no-repeat}
+.bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,2,13,.87),rgba(8,3,19,.34) 58%,rgba(5,2,13,.7)),linear-gradient(0deg,#080510 0%,transparent 55%,rgba(8,5,16,.3))}
+.scanlines{position:fixed;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.012) 4px)}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(14px,4vw,55px);background:rgba(7,3,15,.78);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.logo{font-weight:1000;letter-spacing:.14em;font-size:18px}.logo span{color:var(--glow);text-shadow:0 0 15px var(--violet)}
+nav{display:flex;align-items:center;gap:clamp(10px,2vw,25px)}nav a{font-size:11px;letter-spacing:.13em;color:#e9d5ff;text-decoration:none}nav a:hover{color:var(--gold);text-shadow:0 0 12px var(--violet)}
+.nav-tools{display:flex;gap:8px}.mini{border:1px solid var(--line);background:#1b0d2dcc;color:white;border-radius:4px;padding:8px 10px;font-size:11px}
+main{max-width:1440px;margin:auto}.hero{min-height:83vh;display:flex;align-items:center;padding:8vh clamp(22px,9vw,130px);position:relative}
+.hero-copy{max-width:720px}.kicker{color:var(--gold);font-size:11px;letter-spacing:.35em;font-weight:800}
+h1{font-size:clamp(55px,10vw,125px);line-height:.82;letter-spacing:.035em;margin:22px 0;text-shadow:0 0 35px #9333ea}
+h1 span{color:#d8b4fe}.motto{font-size:clamp(13px,2vw,19px);letter-spacing:.2em;color:#f3e8ff}
+.lead{color:#d2c3df;line-height:1.8;max-width:510px;font-size:14px;margin:23px 0 28px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 21px;border-radius:4px;border:1px solid #c084fc;color:white;background:linear-gradient(120deg,#6d28d9,#a855f7);box-shadow:0 0 20px #9333ea55;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.14em;transition:.25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 28px #a855f7aa}.btn.ghost{background:#11091fc9}
+.hud{position:absolute;right:5%;bottom:8%;width:235px;padding:16px;background:rgba(8,4,17,.76);border:1px solid var(--line);clip-path:polygon(0 0,92% 0,100% 16%,100% 100%,8% 100%,0 84%)}
+.hud small{display:block;color:#c4a4ed;letter-spacing:.18em;font-size:9px}.hud strong{display:block;margin:8px 0;font-size:14px}.hud .bar{height:3px;background:#332044;margin-top:10px}.hud .bar i{display:block;width:72%;height:100%;background:var(--violet);box-shadow:0 0 10px var(--violet)}
+.section{padding:78px clamp(18px,7vw,95px)}.section-head{margin-bottom:25px}.section-head small{color:var(--gold);letter-spacing:.3em;font-size:10px}.section-head h2{font-size:clamp(26px,4vw,43px);margin:8px 0;letter-spacing:.08em}.section-head p{color:#c9bad8;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{position:relative;overflow:hidden;padding:24px;min-height:170px;background:linear-gradient(140deg,rgba(36,17,61,.88),rgba(8,5,17,.9));border:1px solid var(--line);box-shadow:inset 0 0 25px #a855f711;clip-path:polygon(0 0,94% 0,100% 12%,100% 100%,6% 100%,0 88%);transition:.25s}.card:hover{transform:translateY(-5px);border-color:#d8b4fe;box-shadow:0 0 25px #9333ea44}
+.card .symbol{font-size:26px;color:var(--glow)}.card h3{font-size:14px;letter-spacing:.16em;margin:12px 0 7px}.card p{font-size:12px;line-height:1.7;color:#c9bad8;margin:0}
+.server-panel{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:25px;background:var(--panel);border:1px solid var(--line);box-shadow:0 0 35px #6d28d922}
+.ip{font-size:clamp(16px,3vw,25px);font-weight:900;color:#d8b4fe;overflow-wrap:anywhere}.sub{font-size:11px;color:#bbaaca;margin-top:8px}.tag{display:inline-block;border:1px solid #a855f7;color:#e9d5ff;padding:5px 9px;font-size:9px;letter-spacing:.15em;margin-bottom:10px}
+.vip{border-color:rgba(244,207,121,.4)}.vip h3{color:var(--gold)}.vip .symbol{color:var(--gold)}
+footer{text-align:center;padding:30px 15px;border-top:1px solid var(--line);color:#a797b8;font-size:10px;letter-spacing:.18em}
+.toast{position:fixed;z-index:30;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:#241238;border:1px solid var(--line);padding:12px 18px;border-radius:5px;font-size:12px;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){nav a{display:none}.hero{min-height:78vh;padding-top:100px;padding-bottom:180px}.hud{left:22px;right:auto;bottom:25px;width:min(280px,calc(100% - 44px))}.cards{grid-template-columns:1fr}.section{padding-top:55px;padding-bottom:55px}.intro-brand{bottom:18%}}
+</style>
+</head>
+<body>
+<div id="intro">
+  <video id="introVideo" playsinline muted autoplay preload="auto">
+    <source src="intro.mp4" type="video/mp4">
+  </video>
+  <div class="intro-shade"></div>
+  <div class="intro-brand"><b>VORTEX LAND</b><small>YOUR WORLD. YOUR ADVENTURE.</small></div>
+  <button id="startIntro" class="start-intro" type="button">▶ ආරම්භ කරන්න / START</button>
+</div>
+<div id="site">
+  <div class="bg"></div><div class="scanlines"></div>
+  <header>
+    <a class="logo" href="#home">VORTEX <span>LAND</span></a>
+    <nav>
+      <a href="#home" data-en="HOME" data-si="මුල් පිටුව">HOME</a>
+      <a href="#world" data-en="THE WORLD" data-si="අපේ ලෝකය">THE WORLD</a>
+      <a href="#server" data-en="SERVER" data-si="සේවාදායකය">SERVER</a>
+      <a href="#vip" data-en="VIP RANKS" data-si="VIP ශ්‍රේණි">VIP RANKS</a>
+      <a href="#about" data-en="ABOUT" data-si="අප ගැන">ABOUT</a>
+    </nav>
+    <div class="nav-tools"><button class="mini" id="language">EN / සිං</button><button class="mini" id="music">♫ MUSIC ON</button></div>
+  </header>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="kicker" data-en="A NEW ADVENTURE BEGINS" data-si="අලුත් ත්‍රාසජනක ගමනක් ඇරඹේ">A NEW ADVENTURE BEGINS</div>
+        <h1>VORTEX<br><span>LAND</span></h1>
+        <div class="motto">YOUR WORLD. YOUR ADVENTURE.</div>
+        <p class="lead" data-en="Step into a world of survival, creativity and discovery. Build your home, explore the unknown and write your own story." data-si="Survival, නිර්මාණශීලීත්වය සහ ගවේෂණයෙන් පිරුණු ලෝකයකට පිවිසෙන්න. ඔබේ නිවහන ගොඩනඟා, නොදන්නා දේ සොයා ඔබේම කතාව ලියන්න.">Step into a world of survival, creativity and discovery. Build your home, explore the unknown and write your own story.</p>
+        <div class="actions"><a class="btn" href="#server" data-en="▶ JOIN THE SERVER" data-si="▶ සේවාදායකයට එක්වන්න">▶ JOIN THE SERVER</a><a class="btn ghost" href="#world" data-en="EXPLORE WORLD" data-si="ලෝකය ගවේෂණය">EXPLORE WORLD</a></div>
+      </div>
+      <aside class="hud"><small>VORTEX NETWORK / REALM 01</small><strong data-en="SURVIVAL WORLD" data-si="SURVIVAL ලෝකය">SURVIVAL WORLD</strong><small data-en="YOUR JOURNEY AWAITS" data-si="ඔබේ ගමන බලා සිටී">YOUR JOURNEY AWAITS</small><div class="bar"><i></i></div></aside>
+    </section>
+    <section class="section" id="world">
+      <div class="section-head"><small>01 / THE EXPERIENCE</small><h2 data-en="CHOOSE YOUR PATH" data-si="ඔබේ මාවත තෝරාගන්න">CHOOSE YOUR PATH</h2><p data-en="A world shaped by the adventures of its players." data-si="ක්‍රීඩකයන්ගේ වික්‍රමාන්විතයන්ගෙන් හැඩගැසෙන ලෝකයක්.">A world shaped by the adventures of its players.</p></div>
+      <div class="cards">
+        <article class="card"><div class="symbol">⚔</div><h3 data-en="SURVIVE" data-si="දිවි රැකගන්න">SURVIVE</h3><p data-en="Collect resources, craft what you need and build a safe place to call home." data-si="සම්පත් එකතු කරගෙන, අවශ්‍ය දේ නිර්මාණය කර ඔබේම ආරක්ෂිත නිවහනක් ගොඩනඟන්න.">Collect resources, craft what you need and build a safe place to call home.</p></article>
+        <article class="card"><div class="symbol">✧</div><h3 data-en="EXPLORE" data-si="ගවේෂණය කරන්න">EXPLORE</h3><p data-en="Travel through the world, discover new places and meet fellow adventurers." data-si="ලෝකය පුරා සංචාරය කර අලුත් ස්ථාන සොයා අනෙක් වික්‍රමාන්විතයන් හමුවන්න.">Travel through the world, discover new places and meet fellow adventurers.</p></article>
+        <article class="card"><div class="symbol">♜</div><h3 data-en="CREATE" data-si="නිර්මාණය කරන්න">CREATE</h3><p data-en="Turn your imagination into builds and leave your mark on the world." data-si="ඔබේ සිතුවිලි ගොඩනැගිලි බවට පත් කර ලෝකය තුළ ඔබේ සලකුණ තබන්න.">Turn your imagination into builds and leave your mark on the world.</p></article>
+      </div>
+    </section>
+    <section class="section" id="server">
+      <div class="section-head"><small>02 / CONNECT</small><h2 data-en="ENTER THE REALM" data-si="අපේ ලෝකයට ඇතුළු වන්න">ENTER THE REALM</h2><p data-en="Your next adventure is one connection away." data-si="ඔබේ මීළඟ ගමනට ඇත්තේ එක සම්බන්ධතාවයක් පමණයි.">Your next adventure is one connection away.</p></div>
+      <div class="server-panel"><div><span class="tag">JAVA SERVER</span><div class="ip" id="serverIp">VortexLand2531.aternos.me:46660</div><div class="sub" data-en="Live player status is not connected yet." data-si="ක්‍රීඩකයන්ගේ සජීවී තත්ත්වය තවම සම්බන්ධ කර නැත.">Live player status is not connected yet.</div></div><button class="btn" id="copyIp" data-en="COPY IP ⧉" data-si="IP පිටපත් කරන්න ⧉">COPY IP ⧉</button></div>
+    </section>
+    <section class="section" id="vip">
+      <div class="section-head"><small>03 / SPECIAL ACCESS</small><h2 data-en="VIP RANKS" data-si="VIP ශ්‍රේණි">VIP RANKS</h2><p data-en="Rank details and benefits can be added when they are finalized." data-si="VIP වරප්‍රසාද තීරණය කළ පසු මෙහි විස්තර එක් කළ හැකිය.">Rank details and benefits can be added when they are finalized.</p></div>
+      <div class="cards">
+        <article class="card vip"><div class="symbol">✦</div><h3>VIP</h3><p data-en="Member benefits — details coming soon." data-si="සාමාජික වරප්‍රසාද — විස්තර පසුව.">Member benefits — details coming soon.</p></article>
+        <article class="card vip"><div class="symbol">✧</div><h3>MVP</h3><p data-en="Special perks — details coming soon." data-si="විශේෂ වරප්‍රසාද — විස්තර පසුව.">Special perks — details coming soon.</p></article>
+        <article class="card vip"><div class="symbol">♛</div><h3>LEGEND</h3><p data-en="Top rank — details coming soon." data-si="ඉහළම ශ්‍රේණිය — විස්තර පසුව.">Top rank — details coming soon.</p></article>
+      </div>
+    </section>
+    <section class="section" id="about"><div class="section-head"><small>04 / OUR COMMUNITY</small><h2 data-en="MAKE YOUR STORY" data-si="ඔබේ කතාව නිර්මාණය කරන්න">MAKE YOUR STORY</h2><p data-en="VORTEX LAND is a survival world where every player can create a new adventure." data-si="VORTEX LAND යනු සෑම ක්‍රීඩකයෙකුටම අලුත් අත්දැකීමක් නිර්මාණය කළ හැකි Survival ලෝකයකි.">VORTEX LAND is a survival world where every player can create a new adventure.</p></div></section>
+  </main>
+  <footer>© 2026 VORTEX LAND · YOUR WORLD. YOUR ADVENTURE.</footer>
+</div>
+<div class="toast" id="toast">IP copied!</div>
+<script>
+const intro=document.getElementById('intro'), video=document.getElementById('introVideo'), site=document.getElementById('site');
+const startIntro=document.getElementById('startIntro');
+function enterSite(){intro.classList.add('hidden');site.classList.add('ready');}
+video.addEventListener('ended',enterSite);
+video.addEventListener('error',()=>{startIntro.style.display='block';startIntro.textContent='වීඩියෝව නැවත ආරම්භ කරන්න / PLAY INTRO';});
+video.addEventListener('playing',()=>{startIntro.style.display='none';});
+video.play().catch(()=>{startIntro.style.display='block';});
+startIntro.addEventListener('click',async()=>{
+  try { video.muted=true; video.currentTime=0; await video.play(); startIntro.style.display='none'; }
+  catch(e) { startIntro.textContent='වීඩියෝව විවෘත කළ නොහැක'; }
+});
+let lang='en';document.getElementById('language').addEventListener('click',()=>{lang=lang==='en'?'si':'en';document.documentElement.lang=lang;document.querySelectorAll('[data-en]').forEach(el=>el.textContent=el.dataset[lang]);document.getElementById('language').textContent=lang==='en'?'EN / සිං':'සිං / EN';});
+const toast=document.getElementById('toast');document.getElementById('copyIp').addEventListener('click',async()=>{const ip=document.getElementById('serverIp').textContent;try{await navigator.clipboard.writeText(ip);toast.textContent=lang==='en'?'Server IP copied!':'සේවාදායක IP ලිපිනය පිටපත් කළා!';}catch(e){toast.textContent=ip;}toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200);});
+const music=new Audio('vortex_ambient_music.wav');music.loop=true;music.volume=.45;
+let playing=false;const musicButton=document.getElementById('music');
+musicButton.addEventListener('click',async()=>{
+ if(!playing){try{await music.play();playing=true;musicButton.textContent=lang==='en'?'♫ MUSIC OFF':'♫ සංගීතය නවත්වන්න';}catch(e){toast.textContent='Music file not found — keep it beside index.html';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2800);}}
+ else{music.pause();playing=false;musicButton.textContent=lang==='en'?'♫ MUSIC ON':'♫ සංගීතය වාදනය කරන්න';}
+});
+</script>
+</body></html>
